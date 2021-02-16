@@ -1,51 +1,62 @@
-group 'acmi.l2.clientmod'
-version '1.2.2'
+plugins {
+    id 'java'
+    id 'maven-publish'
+}
 
-apply plugin: 'java'
-apply plugin: 'maven'
+group 'com.github.acmi'
+version '1.2.3'
+
+repositories {
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    compile group: 'com.github.acmi', name: 'l2io', version: '2.2.6'
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
-
-task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
+tasks.withType(Test) {
+    systemProperty 'file.encoding', 'UTF-8'
 }
 
-artifacts {
-    archives sourcesJar
+java {
+    withSourcesJar()
 }
 
-configure(install.repositories.mavenInstaller) {
-    pom.project {
-        name = 'Serializer'
-        description = 'Simple serialization library.'
-        url = 'https://github.com/acmi/Serializer'
-        licenses {
-            license {
-                name = 'The MIT License'
-                url = 'https://opensource.org/licenses/MIT'
-                distribution = 'repo'
-            }
-        }
-        developers {
-            developer {
-                id = 'acmi'
-                name = 'Aleksei Sazonov'
-                email = 'acmi831@gmail.com'
+publishing {
+    publications {
+        maven(MavenPublication) {
+            artifactId = 'serializer'
+            from components.java
+            pom {
+                name = 'Serializer'
+                description = 'Simple serialization library.'
+                url = 'https://github.com/acmi/Serializer'
+                licenses {
+                    license {
+                        name = 'The MIT License'
+                        url = 'https://opensource.org/licenses/MIT'
+                        distribution = 'repo'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'acmi'
+                        name = 'Aleksei Sazonov'
+                        email = 'acmi831@gmail.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git://github.com/acmi/Serializer.git'
+                    developerConnection = 'scm:git:git://github.com/acmi/Serializer.git'
+                    url = 'https://github.com/acmi/Serializer'
+                }
             }
         }
     }
-}
-
-repositories {
-    mavenCentral()
-    maven { url "https://raw.githubusercontent.com/acmi/L2io/mvn-repo" }
-}
-
-dependencies {
-    compile group: 'acmi.l2.clientmod', name: 'l2io', version: '2.1.+'
-
-    testCompile group: 'junit', name: 'junit', version: '4.12'
 }

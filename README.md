@@ -1,5 +1,8 @@
 Serializer
 ==========
+![GitHub](https://img.shields.io/github/license/acmi/serializer)
+[![](https://jitpack.io/v/acmi/serializer.svg)](https://jitpack.io/#acmi/serializer)
+
 Simple serialization library.
 Based on [L2io](https://github.com/acmi/L2io).
 
@@ -24,18 +27,14 @@ Maven
 -----
 ```maven
 <repository>
-    <id>l2io-github</id>
-    <url>https://raw.githubusercontent.com/acmi/L2io/mvn-repo</url>
-</repository>
-<repository>
-    <id>serializer-github</id>
-    <url>https://raw.githubusercontent.com/acmi/Serializer/mvn-repo</url>
+    <id>jitpack.io</id>
+    <url>https://jitpack.io</url>
 </repository>
 
 <dependency>
-    <groupId>acmi.l2.clientmod</groupId>
+    <groupId>com.github.acmi</groupId>
     <artifactId>serializer</artifactId>
-    <version>1.2.+</version>
+    <version>1.2.3</version>
 </dependency>
 ```
 
@@ -43,11 +42,10 @@ Gradle
 ------
 ```gradle
 repositories {
-    maven { url "https://raw.githubusercontent.com/acmi/L2io/mvn-repo" }
-    maven { url "https://raw.githubusercontent.com/acmi/Serializer/mvn-repo" }
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
-    compile group:'acmi.l2.clientmod', name:'serializer', version: '1.2.+'
+    compile group:'com.github.acmi', name:'serializer', version: '1.2.3'
 }
 ```

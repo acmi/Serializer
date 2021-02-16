@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 acmi
+ * Copyright (c) 2021 acmi
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -85,8 +85,9 @@ public class ReflectionSerializerFactory<C extends Context> implements Serialize
         List<BiConsumer<T, ObjectInput<C>>> read1 = new ArrayList<>();
         List<BiConsumer<T, ObjectOutput<C>>> write1 = new ArrayList<>();
         for (Field field : clazz.getDeclaredFields()) {
-            if (!validField(field))
+            if (!validField(field)) {
                 continue;
+            }
 
             handleField(field, read1, write1);
         }
@@ -104,8 +105,12 @@ public class ReflectionSerializerFactory<C extends Context> implements Serialize
                 writeMethod = true;
             }
         }
-        if (!readMethod) read.addAll(read1);
-        if (!writeMethod) write.addAll(write1);
+        if (!readMethod) {
+            read.addAll(read1);
+        }
+        if (!writeMethod) {
+            write.addAll(write1);
+        }
     }
 
     protected boolean validField(Field field) {
@@ -208,8 +213,9 @@ public class ReflectionSerializerFactory<C extends Context> implements Serialize
                     List<BiConsumer<Object, ObjectInput<C>>> arrayRead = new ArrayList<>();
                     List<BiConsumer<Object, ObjectOutput<C>>> arrayWrite = new ArrayList<>();
                     serializer(componentType, arr -> Array.get(arr, ind), (arr, val) -> Array.set(arr, ind, val.get()), getAnnotation, arrayRead, arrayWrite);
-                    for (BiConsumer<Object, ObjectInput<C>> ra : arrayRead)
+                    for (BiConsumer<Object, ObjectInput<C>> ra : arrayRead) {
                         ra.accept(array, dataInput);
+                    }
                 }
                 setter.accept(object, () -> array);
             });
@@ -221,8 +227,9 @@ public class ReflectionSerializerFactory<C extends Context> implements Serialize
                     List<BiConsumer<Object, ObjectInput<C>>> arrayRead = new ArrayList<>();
                     List<BiConsumer<Object, ObjectOutput<C>>> arrayWrite = new ArrayList<>();
                     serializer(componentType, arr -> Array.get(arr, ind), (arr, val) -> Array.set(arr, ind, val.get()), getAnnotation, arrayRead, arrayWrite);
-                    for (BiConsumer<Object, ObjectOutput<C>> wa : arrayWrite)
+                    for (BiConsumer<Object, ObjectOutput<C>> wa : arrayWrite) {
                         wa.accept(array, dataOutput);
+                    }
                 }
             });
         } else {
@@ -268,8 +275,9 @@ public class ReflectionSerializerFactory<C extends Context> implements Serialize
 
         @Override
         public <S> void readObject(S obj, ObjectInput<C> input) throws UncheckedIOException {
-            if (obj == null)
+            if (obj == null) {
                 return;
+            }
             if (reader == null) {
                 reader = createReader(clazz, readActions);
             }
